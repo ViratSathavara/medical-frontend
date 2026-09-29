@@ -25,19 +25,35 @@ export const Card: React.FC<CardProps> = ({ children, className, hoverEffect = f
   );
 };
 
-export const CardHeader: React.FC<{ title: string; subtitle?: string; action?: React.ReactNode; className?: string }> = ({
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  subtitle?: string;
+  action?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export const CardHeader: React.FC<CardHeaderProps> = ({
   title,
   subtitle,
   action,
-  className
+  children,
+  className,
+  ...props
 }) => {
   return (
-    <div className={twMerge('px-6 py-5 border-b border-slate-100 flex items-center justify-between', className)}>
-      <div>
-        <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-        {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
-      </div>
-      {action && <div>{action}</div>}
+    <div className={twMerge('px-6 py-5 border-b border-slate-100 flex items-center justify-between', className)} {...props}>
+      {children ? (
+        children
+      ) : (
+        <>
+          <div>
+            {title && <h3 className="text-base font-semibold text-slate-900">{title}</h3>}
+            {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+          </div>
+          {action && <div>{action}</div>}
+        </>
+      )}
     </div>
   );
 };

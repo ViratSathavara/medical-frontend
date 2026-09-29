@@ -9,6 +9,8 @@ interface StatCardProps {
   trend?: string;
   isPositive?: boolean;
   color?: 'primary' | 'emerald' | 'amber' | 'rose' | 'indigo';
+  change?: number;
+  description?: string;
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -18,6 +20,8 @@ export const StatCard: React.FC<StatCardProps> = ({
   trend,
   isPositive = true,
   color = 'primary',
+  change,
+  description,
 }) => {
   const colorSchemes = {
     primary: 'bg-primary-50 text-primary-600 border-primary-100',
@@ -26,6 +30,9 @@ export const StatCard: React.FC<StatCardProps> = ({
     rose: 'bg-rose-50 text-rose-600 border-rose-100',
     indigo: 'bg-indigo-50 text-indigo-600 border-indigo-100',
   };
+
+  const displayTrend = trend || (change !== undefined ? `${change >= 0 ? '+' : ''}${change}%` : undefined);
+  const positive = change !== undefined ? change >= 0 : isPositive;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-soft hover:shadow-md transition-shadow">
@@ -37,17 +44,20 @@ export const StatCard: React.FC<StatCardProps> = ({
       </div>
       <div className="mt-3 flex items-baseline justify-between">
         <span className="text-2xl font-bold text-slate-900 tracking-tight">{value}</span>
-        {trend && (
+        {displayTrend && (
           <span
             className={clsx(
               'text-xs font-semibold px-2 py-0.5 rounded-full',
-              isPositive ? 'text-emerald-700 bg-emerald-50' : 'text-rose-700 bg-rose-50'
+              positive ? 'text-emerald-700 bg-emerald-50' : 'text-rose-700 bg-rose-50'
             )}
           >
-            {trend}
+            {displayTrend}
           </span>
         )}
       </div>
+      {description && (
+        <p className="mt-2 text-xs text-slate-500 font-normal line-clamp-1">{description}</p>
+      )}
     </div>
   );
 };
