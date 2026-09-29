@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { Navbar } from '../../components/layout/Navbar';
